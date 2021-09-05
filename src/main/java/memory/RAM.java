@@ -11,6 +11,7 @@ import static memory.FontSet.FONT_SET;
 public class RAM extends AddressSpace {
     public static final int START_ADDRESS = 0x200;
     public static final int FONT_START_ADDRESS = 0x50;
+    public static final int FONT_SPRITE_SIZE = 5;
 
     private static final int RAM_SIZE = 4096;
 
