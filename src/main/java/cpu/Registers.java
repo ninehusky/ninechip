@@ -36,6 +36,16 @@ public class Registers {
 
     }
 
+    public void decrementTimers() {
+        if (this.soundTimer > 0) {
+            this.soundTimer--;
+        }
+
+        if (this.delayTimer > 0) {
+            this.delayTimer--;
+        }
+    }
+
     /**
      * Returns the value at the given index, e.g., getRegister(9) returns the value at V[9].
      * @param index the index of the register to get

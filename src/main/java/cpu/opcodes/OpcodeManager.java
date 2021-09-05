@@ -9,6 +9,7 @@ import static display.Display.SCREEN_HEIGHT;
 import static display.Display.SCREEN_WIDTH;
 
 public class OpcodeManager {
+    // 00EE
     public static void clearDisplay(Registers r, Memory mem) {
         IOBuffer vram = mem.getScreen();
         for (int i = 0; i < vram.size(); i++) {
@@ -16,12 +17,16 @@ public class OpcodeManager {
         }
     }
 
+    // 1NNN
     public static void jump(Registers r, Memory mem) {
         int opcode = getOpcode(r, mem);
         int address = BitUtils.getAddress(opcode);
+        // after the program does this.pc += 2, the pc have the value of address.
+        // a little gross, i know
         r.setProgramCounter(address - 2);
     }
 
+    // 6XNN
     public static void loadByteToRegister(Registers r, Memory mem) {
         int opcode = getOpcode(r, mem);
         int index = BitUtils.getX(opcode);
@@ -29,6 +34,7 @@ public class OpcodeManager {
         r.setRegister(index, value);
     }
 
+    // 7XNN
     public static void addByteToRegister(Registers r, Memory mem) {
         int opcode = getOpcode(r, mem);
         int index = BitUtils.getX(opcode);
@@ -36,12 +42,14 @@ public class OpcodeManager {
         r.setRegister(index, value);
     }
 
+    // ANNN
     public static void setIndexRegister(Registers r, Memory mem) {
         int opcode = getOpcode(r, mem);
         int address = BitUtils.getAddress(opcode);
         r.setIndexRegister(address);
     }
 
+    // DXNY
     public static void drawDisplay(Registers r, Memory mem) {
         int opcode = getOpcode(r, mem);
         int xCoord = r.getRegister(BitUtils.getX(opcode)) % SCREEN_WIDTH;
@@ -56,30 +64,17 @@ public class OpcodeManager {
             int spriteByte = mem.getRam().getByte(r.getIndexRegister() + row);
             for (int col = 0; col < 8; col++) {
                 int spritePixel = spriteByte & (0x80 >>> col);
-                int screenPixel = screen.getByte((yCoord + row) * SCREEN_WIDTH + (xCoord + col));
+                int address = (yCoord + row) * SCREEN_WIDTH + (xCoord + col);
+                int screenPixel = screen.getByte(address);
 
                 if (spritePixel != 0) {
                     if (screenPixel != 0) {
                         r.setRegister(0xF, 1);
                     }
-                    screen.setByte((yCoord + row) * SCREEN_WIDTH + (xCoord + col), screenPixel ^ 1);
+                    screen.setByte(address, screenPixel ^ 1);
                 }
             }
         }
-
-
-        for (int i = 0; i < SCREEN_HEIGHT; i++) {
-            for (int j = 0; j < SCREEN_WIDTH; j++) {
-                int screenAddress = j + i * SCREEN_WIDTH;
-                if (screen.getByte(screenAddress) == 1) {
-                    System.out.print("*");
-                } else {
-                    System.out.print(" ");
-                }
-            }
-            System.out.println();
-        }
-
     }
 
     private static int getOpcode(Registers r, Memory mem) {

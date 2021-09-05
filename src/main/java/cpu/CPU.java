@@ -5,7 +5,6 @@ import cpu.opcodes.OpcodeManager;
 import memory.Memory;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static cpu.BitUtils.checkWord;
