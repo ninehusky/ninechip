@@ -250,7 +250,6 @@ public class OpcodeManager {
         int x = BitUtils.getX(opcode);
         int xVal = r.getRegister(x);
         if (mem.getKeyboard().getByte(xVal) != 0) {
-            System.out.println("key pressed");
             r.setProgramCounter(r.getProgramCounter() + 2);
         }
     }
@@ -262,8 +261,6 @@ public class OpcodeManager {
         int xVal = r.getRegister(x);
         if (mem.getKeyboard().getByte(xVal) == 0) {
             r.setProgramCounter(r.getProgramCounter() + 2);
-        } else {
-            System.out.println("key pressed");
         }
     }
 

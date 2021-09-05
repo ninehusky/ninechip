@@ -1,4 +1,3 @@
-import controller.Keyboard;
 import cpu.CPU;
 import display.Display;
 import memory.Memory;
@@ -7,7 +6,7 @@ public class Main {
     public static double TIMER_REFRESH_FREQUENCY = 17;
     public static void main(String[] args) {
         Memory memory = new Memory();
-        memory.getRam().loadROM("invaders.ch8"); // TODO: read from args
+        memory.getRam().loadROM("tetris.ch8"); // TODO: read from args
         CPU cpu = new CPU(memory);
         Display display = new Display(memory);
 
