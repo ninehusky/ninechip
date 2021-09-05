@@ -1,6 +1,8 @@
 package display;
 
+import controller.Keyboard;
 import memory.IOBuffer;
+import memory.Memory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,13 +17,14 @@ public class Display extends JFrame {
     private IOBuffer screen;
     private BufferedImage backBuffer;
 
-    public Display(IOBuffer screen) {
+    public Display(Memory memory) {
         setTitle("ninechip");
         setSize(SCREEN_WIDTH * PIXEL_SIZE, SCREEN_HEIGHT * PIXEL_SIZE + 10);
         setResizable(true); // TODO: change
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
-        this.screen = screen;
+        this.screen = memory.getScreen();
+        addKeyListener(new Keyboard(memory.getKeyboard()));
         this.backBuffer = new BufferedImage(SCREEN_WIDTH * PIXEL_SIZE, SCREEN_HEIGHT * PIXEL_SIZE,
                 BufferedImage.TYPE_INT_RGB);
         setBackground(Color.BLACK); // will this get overridden? who knows?

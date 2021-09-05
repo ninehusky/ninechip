@@ -91,8 +91,8 @@ public class CPU {
 
         int opcode = ((high << 8) | low);
 
-        System.out.println("program counter: " + Integer.toHexString(registers.getProgramCounter()));
-        System.out.println("opcode: " + Integer.toHexString(opcode));
+//        System.out.println("program counter: " + Integer.toHexString(registers.getProgramCounter()));
+//        System.out.println("opcode: " + Integer.toHexString(opcode));
 
         // decode
         int opcodeRoot = opcode & 0xF000;
@@ -118,7 +118,7 @@ public class CPU {
         assert(currentCommand != null);
 
         // execute
-        System.out.println(currentCommand.getLabel());
+//        System.out.println(currentCommand.getLabel());
         currentCommand.operation.execute(registers, memory);
 
         // increment pc

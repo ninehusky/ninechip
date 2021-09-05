@@ -248,7 +248,9 @@ public class OpcodeManager {
     public static void skipIfPressed(Registers r, Memory mem) {
         int opcode = getOpcode(r, mem);
         int x = BitUtils.getX(opcode);
-        if (mem.getKeyboard().getByte(x) != 0) {
+        int xVal = r.getRegister(x);
+        if (mem.getKeyboard().getByte(xVal) != 0) {
+            System.out.println("key pressed");
             r.setProgramCounter(r.getProgramCounter() + 2);
         }
     }
@@ -257,8 +259,11 @@ public class OpcodeManager {
     public static void skipIfNotPressed(Registers r, Memory mem) {
         int opcode = getOpcode(r, mem);
         int x = BitUtils.getX(opcode);
-        if (mem.getKeyboard().getByte(x) == 0) {
+        int xVal = r.getRegister(x);
+        if (mem.getKeyboard().getByte(xVal) == 0) {
             r.setProgramCounter(r.getProgramCounter() + 2);
+        } else {
+            System.out.println("key pressed");
         }
     }
 
@@ -276,6 +281,7 @@ public class OpcodeManager {
         int address = -1;
         for (int i = 0; i < mem.getKeyboard().size(); i++) {
             if (mem.getKeyboard().getByte(i) != 0) {
+                System.out.println("key pressed");
                 address = i;
                 r.setRegister(x, address);
                 break;
