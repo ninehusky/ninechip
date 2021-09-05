@@ -12,6 +12,10 @@ public class Command {
         this.operation = operation;
     }
 
+    public String getLabel() {
+        return label;
+    }
+
     public interface Operation {
         void execute(Registers r, Memory mem);
     }

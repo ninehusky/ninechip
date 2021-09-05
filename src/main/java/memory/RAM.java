@@ -44,7 +44,7 @@ public class RAM extends AddressSpace {
     @Override
     protected void checkAddress(int address) {
         checkWord(address);
-        if (address < START_ADDRESS || address >= memory.length) {
+        if (address < 0 || address >= memory.length) {
             throw new IllegalArgumentException("Cannot access memory at address " + address);
         }
     }

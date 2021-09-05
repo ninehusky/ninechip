@@ -18,6 +18,7 @@ public class ChipStack {
         if (stack.size() == MAX_STACK_SIZE) {
             throw new IllegalStateException("Cannot push address - stack is full!");
         }
+        stack.push(address);
     }
 
     public int pop() {

@@ -3,21 +3,26 @@ import display.Display;
 import memory.Memory;
 
 public class Main {
+    public static double TIMER_REFRESH_FREQUENCY = 17;
     public static void main(String[] args) {
         Memory memory = new Memory();
-        memory.getRam().loadROM("ibm.ch8"); // TODO: read from args
+        memory.getRam().loadROM("test_opcode.ch8"); // TODO: read from args
         CPU cpu = new CPU(memory);
         Display display = new Display(memory.getScreen());
 
         int opcodes = 0;
 
+        long oldTime = System.currentTimeMillis();
+        long currentTime;
+
         while (true) {
+            currentTime = System.currentTimeMillis();
             cpu.execute();
             display.render();
-            if (opcodes++ >= 10) {
-                try {
-                    Thread.sleep(1000);
-                } catch(Exception e) { };
+            // TODO: CONVERSION
+            if (currentTime - oldTime > TIMER_REFRESH_FREQUENCY) {
+                oldTime = currentTime;
+                cpu.registers.decrementTimers();
             }
         }
     }

@@ -21,7 +21,8 @@ public class CPU {
     private final Map<Integer, Command> eCommandMap;
     private final Map<Integer, Command> fCommandMap;
 
-    private final Registers registers;
+    // TODO: FIX THIS
+    public final Registers registers;
     private final Memory memory;
 
     public CPU(Memory memory) {
@@ -117,6 +118,7 @@ public class CPU {
         assert(currentCommand != null);
 
         // execute
+        System.out.println(currentCommand.getLabel());
         currentCommand.operation.execute(registers, memory);
 
         // increment pc

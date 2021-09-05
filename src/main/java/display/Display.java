@@ -17,8 +17,8 @@ public class Display extends JFrame {
 
     public Display(IOBuffer screen) {
         setTitle("ninechip");
-        setSize(SCREEN_WIDTH * PIXEL_SIZE, SCREEN_HEIGHT * PIXEL_SIZE);
-        setResizable(false);
+        setSize(SCREEN_WIDTH * PIXEL_SIZE, SCREEN_HEIGHT * PIXEL_SIZE + 10);
+        setResizable(true); // TODO: change
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
         this.screen = screen;

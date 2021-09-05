@@ -39,7 +39,7 @@ public class OpcodeManager {
     public static void callSubroutine(Registers r, Memory mem) {
         int opcode = getOpcode(r, mem);
         r.setStackPointer(r.getStackPointer() + 1);
-        mem.getStack().push(r.getProgramCounter());
+        mem.getStack().push(r.getProgramCounter() + 2);
         r.setProgramCounter(BitUtils.getAddress(opcode) - 2);
     }
 
@@ -138,7 +138,10 @@ public class OpcodeManager {
         int x = BitUtils.getX(opcode);
         int y = BitUtils.getY(opcode);
         int result = r.getRegister(x) - r.getRegister(y);
-        r.setRegister(0xF, result > 0 ? 1 : 0); // TODO: underflow?
+        r.setRegister(0xF, 0);
+        if (r.getRegister(x) >= r.getRegister(y)) {
+            r.setRegister(0xF, 1);
+        }
         r.setRegister(x, result & 0xFF);
     }
 
@@ -147,8 +150,8 @@ public class OpcodeManager {
         int opcode = getOpcode(r, mem);
         int x = BitUtils.getX(opcode);
         int xValue = r.getRegister(x);
-        r.setRegister(0xF, (xValue & 0x1) == 1 ? 1 : 0);
-        r.setRegister(x, xValue >>> 1);
+        r.setRegister(0xF, (xValue & 0x1));
+        r.setRegister(x, (xValue & 0xFF) >> 1);
     }
 
     // 8XY7
@@ -157,7 +160,10 @@ public class OpcodeManager {
         int x = BitUtils.getX(opcode);
         int y = BitUtils.getY(opcode);
         int result = r.getRegister(y) - r.getRegister(x);
-        r.setRegister(0xF, result > 0 ? 1 : 0); // TODO: underflow?
+        r.setRegister(0xF, 0);
+        if (r.getRegister(y) >= r.getRegister(x)) {
+            r.setRegister(0xF, 1);
+        }
         r.setRegister(x, result & 0xFF);
     }
 
@@ -167,7 +173,7 @@ public class OpcodeManager {
         int x = BitUtils.getX(opcode);
         int xValue = r.getRegister(x);
         r.setRegister(0xF, (xValue & 0x80) == 0 ? 0 : 1);
-        r.setRegister(x, xValue << 1);
+        r.setRegister(x, (xValue << 1) & 0xFF);
     }
 
     // 9XY0
@@ -217,9 +223,15 @@ public class OpcodeManager {
 
         for (int row = 0; row < n; row++) {
             int spriteByte = mem.getRam().getByte(r.getIndexRegister() + row);
+            if (yCoord + row >= SCREEN_HEIGHT) {
+                break;
+            }
             for (int col = 0; col < 8; col++) {
                 int spritePixel = spriteByte & (0x80 >>> col);
-                int address = (yCoord + row) * SCREEN_WIDTH + (xCoord + col);
+                if (xCoord + col >= SCREEN_WIDTH) {
+                    break;
+                }
+                int address = ((yCoord + row) * SCREEN_WIDTH + (xCoord + col));
                 int screenPixel = screen.getByte(address);
 
                 if (spritePixel != 0) {
@@ -319,7 +331,7 @@ public class OpcodeManager {
     public static void storeRegistersInMemory(Registers r, Memory mem) {
         int opcode = getOpcode(r, mem);
         int x = BitUtils.getX(opcode);
-        for (int i = 0; i < x; i++) {
+        for (int i = 0; i <= x; i++) {
             mem.getRam().setByte(r.getIndexRegister() + i, r.getRegister(i));
         }
     }
@@ -328,8 +340,8 @@ public class OpcodeManager {
     public static void storeMemoryInRegisters(Registers r, Memory mem) {
         int opcode = getOpcode(r, mem);
         int x = BitUtils.getX(opcode);
-        for (int i = 0; i < x; i++) {
-            r.setRegister(i, r.getIndexRegister() + i);
+        for (int i = 0; i <= x; i++) {
+            r.setRegister(i, mem.getRam().getByte(r.getIndexRegister() + i));
         }
     }
 
