@@ -8,8 +8,8 @@ import memory.RAM;
 
 import java.util.Random;
 
-import static display.Display.SCREEN_HEIGHT;
-import static display.Display.SCREEN_WIDTH;
+import static gui.Display.SCREEN_HEIGHT;
+import static gui.Display.SCREEN_WIDTH;
 
 public class OpcodeManager {
     // 00E0

@@ -2,7 +2,6 @@ package memory;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import static cpu.BitUtils.checkWord;
@@ -20,10 +19,8 @@ public class RAM extends AddressSpace {
         loadFontSet();
     }
 
-    public void loadROM(String fileName) {
+    public void loadROM(File ROMFile) {
         try {
-            ClassLoader classLoader = getClass().getClassLoader();
-            File ROMFile = new File(classLoader.getResource(fileName).getFile());
             InputStream inputStream = new FileInputStream(ROMFile);
 
             byte[] gameData = new byte[(int)ROMFile.length()];
@@ -37,7 +34,7 @@ public class RAM extends AddressSpace {
             inputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
-            System.exit(1); // lol
+            System.exit(-1);
         }
     }
 

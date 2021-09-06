@@ -1,4 +1,4 @@
-package display;
+package gui;
 
 import controller.Keyboard;
 import memory.IOBuffer;
@@ -20,14 +20,22 @@ public class Display extends JFrame {
     public Display(Memory memory) {
         setTitle("ninechip");
         setSize(SCREEN_WIDTH * PIXEL_SIZE, SCREEN_HEIGHT * PIXEL_SIZE + 10);
-        setResizable(true); // TODO: change
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setVisible(true);
         this.screen = memory.getScreen();
         addKeyListener(new Keyboard(memory.getKeyboard()));
         this.backBuffer = new BufferedImage(SCREEN_WIDTH * PIXEL_SIZE, SCREEN_HEIGHT * PIXEL_SIZE,
                 BufferedImage.TYPE_INT_RGB);
         setBackground(Color.BLACK); // will this get overridden? who knows?
+
+        JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu();
+        fileMenu.add("Load ROM");
+        fileMenu.add("Exit");
+        menuBar.add(new JMenu("File"));
+
+        setJMenuBar(menuBar);
+
+        setVisible(true);
     }
 
     public void render() {

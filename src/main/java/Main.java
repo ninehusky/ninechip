@@ -1,16 +1,27 @@
 import cpu.CPU;
-import display.Display;
+import gui.Display;
 import memory.Memory;
+
+import java.io.File;
 
 public class Main {
     public static double TIMER_REFRESH_FREQUENCY = 17;
     public static void main(String[] args) {
         Memory memory = new Memory();
-        memory.getRam().loadROM("tetris.ch8"); // TODO: read from args
+        if (args.length != 1) {
+            System.err.println("Usage: java -jar ninechip.jar <filepath>");
+            System.exit(-1);
+        }
+
+        File ROMFile = new File(args[0]);
+        if (!ROMFile.exists()) {
+            System.err.println("The given file does not exist!");
+            System.exit(-1);
+        }
+
+        memory.getRam().loadROM(ROMFile);
         CPU cpu = new CPU(memory);
         Display display = new Display(memory);
-
-        int opcodes = 0;
 
         long oldTime = System.currentTimeMillis();
         long currentTime;
