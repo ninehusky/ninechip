@@ -4,6 +4,24 @@ An interpreter for the Chip-8 language, created in Java.
 ![](docs/invaders1.png)
 ![](docs/invaders2.png)
 
+## Controls
+The 16-key keypad of the CHIP-8 is as follows:
+
+|1|2|3|C|
+|:---:|:---:|:---:|:---:|
+|4|5|6|D|
+|7|8|9|E|
+|A|0|B|F|
+
+On a QWERTY keyboard, this is how the above keypad is mapped:
+
+
+|1|2|3|4|
+|:---:|:---:|:---:|:---:|
+|Q|W|E|R|
+|A|S|D|F|
+|Z|X|C|V|
+
 ## Dependencies
 Running ninechip will require Java 15+ and Maven.
 
