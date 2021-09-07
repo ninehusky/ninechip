@@ -30,8 +30,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <addClassPath>false</addClassPath>
-                            <mainClass>ninechip.Main</mainClass>
+                            <mainClass>Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -42,7 +41,7 @@
 
     <properties>
         <maven.compiler.source>15</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.target>15</maven.compiler.target>
     </properties>
 
 </project>
